@@ -1,0 +1,43 @@
+<html>
+<head>
+	<style>
+		html, body{
+			margin: 10px;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<svg width="300" height="300" style="padding:10px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g>
+<!--     	<g id="Hour">
+			<polygon points="96,100 104,100 104,50 96,50" fill="blue" stroke="darkblue">
+				<animateTransform attributeName="transform" type="rotate" dur="216s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
+			</polygon>
+		</g>
+		<g id="Minute">
+			<polygon points="99,100 101,100 101,3 99,3" fill="red" stroke="darkred">
+				<animateTransform attributeName="transform" type="rotate" dur="36s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
+			</polygon>
+		</g>
+    	<g id="Second">
+			<polygon points="99.5,100 100.5,100 100.5,3 99.5,3" fill="green" stroke="darkgreen">
+				<animateTransform attributeName="transform" type="rotate" dur="6s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
+			</polygon>
+		</g>
+ -->
+    	<circle cx="100" cy="100" r="100" fill="white" style="stroke:#666; stroke-width: 3px;"></circle>
+    	<line id="hour" x1="100" y1="110" x2="100" y2="50" style="stroke-width: 10px; stroke: rgb(27,85,246);">
+			<animateTransform attributeName="transform" type="rotate" dur="216000s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"></animateTransform>
+        </line>
+    	<line id="minute" x1="100" y1="115" x2="100" y2="5" style="stroke-width: 4px; stroke: rgb(6,142,68);">
+			<animateTransform attributeName="transform" type="rotate" dur="3600s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"></animateTransform>
+        </line>
+    	<line id="second" x1="100" y1="120" x2="100" y2="5" style="stroke-width: 2px; stroke: rgb(208, 45, 30);">
+			<animateTransform attributeName="transform" type="rotate" dur="60s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"></animateTransform>
+        </line>
+        <circle cx="100" cy="100" r="4" fill="gray" stroke="black"></circle>
+	</g>
+	</svg>
+</body>
+</html>
