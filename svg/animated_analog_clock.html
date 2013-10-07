@@ -41,13 +41,13 @@
 
 	    	<g id="hour">
 		    	<line x1="100" y1="110" x2="100" y2="45" style="stroke-width: 8px; stroke: rgb(27,85,246);">
-		    		<animateTransform attributeName="transform" type="rotate" dur="86400s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
+		    		<animateTransform attributeName="transform" type="rotate" dur="12h" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
 		    		<!-- Can't reuse the animations as it's meant only for renderable elements ?-->
 		        </line>
 		    </g>
 		    <g id="minute">
 		    	<line x1="100" y1="115" x2="100" y2="15" style="stroke-width: 4px; stroke: rgb(6,142,68);">
-					<animateTransform attributeName="transform" type="rotate" dur="3600s" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
+					<animateTransform attributeName="transform" type="rotate" dur="60min" values="0, 100, 100; 360, 100, 100" repeatCount="indefinite"/>
 		        </line>
 	        </g>
 	        <g id="second">
@@ -63,13 +63,14 @@
 				currentMilliSeconds = currentTime.getMilliseconds(),
 				currentSecondsInMillis = currentTime.getSeconds() * 1000 + currentMilliSeconds,
 				currentMinutesInMillis = currentTime.getMinutes() * 60 * 1000 + currentSecondsInMillis,
-				currentHoursInMillis = currentTime.getHours() * 60 * 60 * 1000 + currentMinutesInMillis;
+				currentHours = currentTime.getHours();
+				currentHoursInMillis = (currentHours > 11 ? (currentHours - 12) : currentHours) * 60 * 60 * 1000 + currentMinutesInMillis;
 
 			document.getElementById("second").setAttribute("transform", "rotate(" + ( currentSecondsInMillis * (6/1000) ) + ",100,100)")
 			document.getElementById("minute").setAttribute("transform", "rotate(" + ( (currentMinutesInMillis / 60) * (6/1000) ) + ",100,100)")
 			document.getElementById("hour").setAttribute("transform", "rotate(" + ( (currentHoursInMillis / (60 * 60)) * (30/1000) ) + ",100,100)")
 
-			document.getElementById("ampm").textContent= currentTime.getHours() > 11 ? "PM" : "AM";
+			document.getElementById("ampm").textContent= currentHours > 11 ? "PM" : "AM";
 		</script>
 	</svg>
 </body>
