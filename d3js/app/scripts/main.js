@@ -180,3 +180,148 @@ svg.append("g").selectAll("text")
 
 //=====================================================================================================================
 
+function getRandomInt(max){
+    return Math.round(Math.random() * (max || 1000));
+}
+
+//=====================================================================================================================
+
+d3.select("body").append("h3").text("Dynamic Bar Chart using SVG with scale");
+
+var but = document.createElement("button");
+but.innerHTML = "Random data";
+document.body.appendChild(but);
+
+var h = 250, w =200, barPadding = 2,
+    svgBar = d3.select("body").append("div").append("svg").attr("width", w).attr("height", h);
+
+populateRandomBar();
+
+function populateRandomBar(){
+    var dataset = [getRandomInt(), getRandomInt(), getRandomInt(), getRandomInt(), getRandomInt()];
+    var yScale = d3.scale.linear().domain([0, d3.max(dataset, function(d){ return d })]).range([h, 0]);
+    var yScale2 = d3.scale.linear().domain([0, d3.max(dataset, function(d){ return d })]).range([0, h]);
+
+    var rects = svgBar.selectAll("rect").data(dataset);
+
+    rects.transition()
+        .attr("y", function(d){ return yScale(d) })
+        .attr("height", function(d) { return yScale2(d) });
+
+    rects.enter()
+        .append("rect")
+        .attr("x", function(d, i){ return (i * (w/dataset.length) + (w/dataset.length - barPadding) / 2) - 19})
+        .attr("y", function(d){ return yScale(d) })
+        .attr("height", function(d) { return yScale2(d) })
+        .attr("width", function(d, i){ return w/dataset.length - barPadding})
+        .attr("fill", "green")
+        .attr("stroke", "darkgreen");
+
+    var texts = svgBar.selectAll("text").data(dataset);
+
+    texts.transition()
+        .attr("y", function(d){ return yScale(d) + 20})
+        .text(function(d){ return d });
+
+    texts.enter()
+        .append("text")
+        .attr("x", function(d, i){ return (i * (w/dataset.length) + (w/dataset.length - barPadding) / 2)})
+        .attr("y", function(d){ return yScale(d) + 20})
+        .attr("text-anchor", "middle")
+        .text(function(d){ return d });
+}
+
+
+but.onclick = function(){
+    populateRandomBar();
+};
+
+//=====================================================================================================================
+
+d3.select("body").append("h3").text("Dynamic Scatter plot using SVG with scale and axis");
+
+
+function populateRandomPlots(){
+    var dataset = [];
+    var numDataPoints = 30;
+    var xRange = Math.random() * 1000;
+    var yRange = Math.random() * 1000;
+    for (var i = 0; i < numDataPoints; i++) {
+        var newNumber1 = Math.round(Math.random() * xRange);
+        var newNumber2 = Math.round(Math.random() * yRange);
+        dataset.push([newNumber1, newNumber2]);
+    }
+    return dataset;
+}
+
+var but2 = document.createElement("button");
+but2.innerHTML = "Random data";
+document.body.appendChild(but2);
+
+var h = 250, w =400, padding = 40,
+    svg = d3.select("body").append("div").append("svg").attr("width", w).attr("height", h);
+
+var xx = svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + (h - padding) + ")");
+
+var yx = svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(" + padding + ", 0)");
+
+var circleG = svg.append("g");
+
+var textG = svg.append("g");
+
+populateScatterPlot();
+
+function populateScatterPlot(){
+    var dataset = populateRandomPlots();
+
+    var xScale = d3.scale.linear().domain([0, d3.max(dataset, function(d){ return d[0] })]).range([padding, w-padding]);
+    var yScale = d3.scale.linear().domain([0, d3.max(dataset, function(d){ return d[1] })]).range([h-padding, padding]);
+
+    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
+    var yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(5);
+
+    xx.call(xAxis);
+    yx.call(yAxis);
+
+    var x = circleG.selectAll("circle").data(dataset);
+
+        x.transition()
+            .attr("cx", function(d){ return xScale(d[0]) })
+            .attr("cy", function(d){ return yScale(d[1]) });
+
+        x.enter()
+            .append("circle")
+            .attr("cx", function(d){ return xScale(d[0]) })
+            .attr("cy", function(d){ return yScale(d[1]) })
+            .attr("r", "5")
+            .attr("fill", "green")
+            .attr("stroke", "darkgreen");
+
+        x.exit().remove();
+
+    var y = textG.selectAll("text").data(dataset);
+
+        y.transition()
+            .attr("x", function(d){ return xScale(d[0]) + 5 })
+            .attr("y", function(d){ return yScale(d[1]) + 20})
+            .text(function(d){ return d });
+
+        y.enter()
+            .append("text")
+            .attr("x", function(d){ return xScale(d[0]) + 5 })
+            .attr("y", function(d){ return yScale(d[1]) - 5 })
+            .attr("font-size", "10px")
+            .text(function(d){ return d });
+
+        y.exit().remove();
+};
+
+but2.onclick = function(){
+    populateScatterPlot();
+};
+
+//=====================================================================================================================
